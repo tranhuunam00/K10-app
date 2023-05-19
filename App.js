@@ -15,7 +15,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <View style={{}}>
+      <View style={{ marginTop: 100 }}>
         <TextInput
           style={{ marginBottom: 10, width: 100, height: 70 }}
           onChangeText={(e) => {
