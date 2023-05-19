@@ -1,6 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 
 export default function App() {
   const [item, setItem] = useState("");
@@ -23,11 +30,17 @@ export default function App() {
           title="Add "
         ></Button>
       </View>
-      <View>
+      <ScrollView>
         {listItems.map((value, index) => {
-          return <Text key={index}>{value}</Text>;
+          return (
+            <View
+              style={{ height: 100, width: 100, backgroundColor: "#ff00ff" }}
+            >
+              <Text key={index}>{value}</Text>
+            </View>
+          );
         })}
-      </View>
+      </ScrollView>
     </View>
   );
 }
