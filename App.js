@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import {
   Button,
+  FlatList,
   ScrollView,
   StyleSheet,
   Text,
@@ -30,18 +31,18 @@ export default function App() {
           title="Add "
         ></Button>
       </View>
-      <ScrollView keyboardDismissMode={true}>
-        {listItems.map((value, index) => {
-          return (
-            <View
-              key={index}
-              style={{ height: 100, width: 100, backgroundColor: "#ff00ff" }}
-            >
-              <Text key={index}>{value}</Text>
-            </View>
-          );
-        })}
-      </ScrollView>
+
+      <FlatList
+        data={listItems}
+        keyExtractor={(value) => {
+          return value + new Date().getTime() + Math.random(100);
+        }}
+        renderItem={(item) => (
+          <View style={{ height: 100, width: 100, backgroundColor: "#ff00ff" }}>
+            <Text>{item.item}</Text>
+          </View>
+        )}
+      ></FlatList>
     </View>
   );
 }
