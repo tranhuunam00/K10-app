@@ -30,10 +30,11 @@ export default function App() {
           title="Add "
         ></Button>
       </View>
-      <ScrollView>
+      <ScrollView keyboardDismissMode={true}>
         {listItems.map((value, index) => {
           return (
             <View
+              key={index}
               style={{ height: 100, width: 100, backgroundColor: "#ff00ff" }}
             >
               <Text key={index}>{value}</Text>
