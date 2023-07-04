@@ -1,11 +1,13 @@
-import { Alert, Button, Image, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, StyleSheet, Text, View } from 'react-native';
 import {
   launchCameraAsync,
   useCameraPermissions,
   PermissionStatus,
 } from 'expo-image-picker';
 import { useState } from 'react';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+
+import { Colors } from '../../constants/colors';
+import OutlinedButton from '../UI/OutlinedButton';
 
 function ImagePicker() {
   const [pickedImage, setPickedImage] = useState();
@@ -21,7 +23,6 @@ function ImagePicker() {
     }
 
     if (cameraPermissionInformation.status === PermissionStatus.DENIED) {
-      const permissionResponse = await requestPermission();
       Alert.alert(
         'Insufficient Permissions!',
         'You need to grant camera permissions to use this app.'
@@ -29,7 +30,7 @@ function ImagePicker() {
       return false;
     }
 
-    return true;    
+    return true;
   }
 
   async function takeImageHandler() {
@@ -44,11 +45,12 @@ function ImagePicker() {
       aspect: [16, 9],
       quality: 0.5,
     });
-    console.log(image);
+
     setPickedImage(image.uri);
   }
 
   let imagePreview = <Text>No image taken yet.</Text>;
+
   if (pickedImage) {
     imagePreview = <Image style={styles.image} source={{ uri: pickedImage }} />;
   }
@@ -56,12 +58,13 @@ function ImagePicker() {
   return (
     <View>
       <View style={styles.imagePreview}>{imagePreview}</View>
-      <Button title="Take Image" onPress={takeImageHandler} />
+      <OutlinedButton icon="camera" onPress={takeImageHandler}>Take Image</OutlinedButton>
     </View>
   );
 }
 
 export default ImagePicker;
+
 const styles = StyleSheet.create({
   imagePreview: {
     width: '100%',
