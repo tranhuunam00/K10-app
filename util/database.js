@@ -29,6 +29,7 @@ export function init() {
 }
 
 export function insertPlace(place) {
+  console.log("insertPlace ");
   const promise = new Promise((resolve, reject) => {
     database.transaction((tx) => {
       tx.executeSql(
@@ -41,6 +42,7 @@ export function insertPlace(place) {
           place.location.lng,
         ],
         (_, result) => {
+          console.log(result);
           resolve(result);
         },
         (_, error) => {
