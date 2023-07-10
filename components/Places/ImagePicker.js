@@ -9,7 +9,7 @@ import { useState } from "react";
 import { Colors } from "../../constants/colors";
 import OutlinedButton from "../UI/OutlinedButton";
 
-function ImagePicker() {
+function ImagePicker({ onTakeImage }) {
   const [pickedImage, setPickedImage] = useState();
 
   const [cameraPermissionInformation, requestPermission] =
@@ -23,8 +23,6 @@ function ImagePicker() {
     }
 
     if (cameraPermissionInformation.status === PermissionStatus.DENIED) {
-      const permissionResponse = await requestPermission();
-
       Alert.alert(
         "Insufficient Permissions!",
         "You need to grant camera permissions to use this app."
@@ -49,6 +47,7 @@ function ImagePicker() {
     });
 
     setPickedImage(image.uri);
+    onTakeImage(image.uri);
   }
 
   let imagePreview = <Text>No image taken yet.</Text>;
@@ -78,6 +77,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Colors.primary100,
     borderRadius: 4,
+    overflow: "hidden",
   },
   image: {
     width: "100%",
