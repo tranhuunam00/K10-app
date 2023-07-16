@@ -77,7 +77,7 @@ export default function App() {
               headerShown: false,
             }}
           /> */}
-                    <Stack.Screen
+                    {/* <Stack.Screen
                         name="Login"
                         component={LoginScreen}
                         style={{
@@ -86,7 +86,7 @@ export default function App() {
                             alignItems: 'center',
                             justifyContent: 'center',
                         }}
-                    />
+                    /> */}
                     <Stack.Screen
                         name="SignIn"
                         component={SignUpScreen}

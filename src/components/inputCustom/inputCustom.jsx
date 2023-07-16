@@ -15,7 +15,10 @@ const InputCustom = ({
     iconErr,
     secureTextEntry,
     validate,
-    onChange = () => {},
+    name,
+    placeholder,
+    onChange = () => { },
+
 }) => {
     const [isFocused, setIsFocused] = useState(false)
     const handleFocus = () => {
@@ -38,8 +41,10 @@ const InputCustom = ({
                         onFocus={handleFocus}
                         onBlur={handleBlur}
                         secureTextEntry={secureTextEntry}
+                        name={name}
                         validate={validate}
-                        onChange={(e) => onChange(e.target)}
+                        onChangeText={(value) => { onChange(value, validate, name) }}
+                        placeholder={placeholder}
                     />
                     <Text
                         style={[styles.label, isFocused && styles.labelFocused]}

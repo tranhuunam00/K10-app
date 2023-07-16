@@ -1,9 +1,46 @@
 import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import IMAGE_APP from '../../assets/AppImage'
 import InputCustom from '../../components/inputCustom/inputCustom'
+import { ParseValid } from '../../lib/validate/ParseValid'
+import { Validate } from '../../lib/validate/Validate'
 
 const SignUpScreen = () => {
+
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
+
+    const [listError, setListError] = useState({
+        password: null,
+        email: null,
+        confirmPW: null,
+    })
+    const [formValue, setFormValue] = useState({
+        password: null,
+        email: null,
+        confirmPW: null,
+
+    })
+
+    const handleChangeInput = (value, validate, name) => {
+        console.log("-=>>> name: ", name)
+        if (name === "password") setPassword(value)
+        if (name === "email") setEmail(value)
+        if (name === "confirmPassword") setConfirmPassword(value)
+
+        const inputValue = value.trim()
+        // console.log(inputValue)
+        const validObject = ParseValid(validate);
+        const error = Validate(name, inputValue, validObject);
+        setListError({ ...listError, [name]: error })
+        setFormValue({ ...formValue, [name]: inputValue })
+    }
+    const handlePressRegister = () => {
+
+    }
+    // console.log(listError)
+    // console.log("CfPassword", listError.confirmPW)
     return (
         <View style={styles.registerViewAll}>
             <View style={styles.registerView}>
@@ -12,35 +49,42 @@ const SignUpScreen = () => {
                         <Image source={IMAGE_APP.back_arrow} />
                     </View>
                 </View> */}
+
                 <View>
                     <Text style={styles.textRegister}>
                         Hello! Register to get started
                     </Text>
                 </View>
                 <View style={styles.inputView}>
-                    {/* <TextInput
-                        placeholder="Username"
-                        style={styles.inputStyle}
-                    />
-                    <TextInput placeholder="Email" style={styles.inputStyles} />
-                    <TextInput
-                        placeholder="Password"
-                        style={styles.inputStyles}
-                    />
-                    <TextInput
-                        placeholder="Confirm password"
-                        style={styles.inputStyles}
-                    /> */}
-                    <InputCustom label={'Email'} icon={IMAGE_APP.email} />
-                    <InputCustom label={'Password'} icon={IMAGE_APP.lock} />
+                    <InputCustom
+                        label={'Email'}
+                        icon={IMAGE_APP.email}
+                        name={"email"}
+                        validate={"required|regEmail"}
+                        onChange={handleChangeInput}
+                        err={listError.email} />
+
+                    <InputCustom
+                        label={'Password'}
+                        icon={IMAGE_APP.lock}
+                        name={"password"}
+                        validate={"required|minLength:6"}
+                        onChangeText={handleChangeInput}
+                        err={listError.password} />
+
                     <InputCustom
                         label={'Confirm password'}
                         icon={IMAGE_APP.lock}
-                    />
+                        name={"confirmPassword"}
+                        validate={"required|checkPw"}
+                        onChangeText={handleChangeInput}
+                        err={listError.confirmPW} />
                 </View>
-                <View style={styles.buttonView}>
+                <View style={styles.buttonView} onPress={handlePressRegister}>
                     <Text style={styles.buttonStyle}>Register</Text>
                 </View>
+
+
                 <View style={styles.continueView}>
                     <View style={styles.lineView} />
                     <Text style={styles.textView}>Or Register with</Text>
@@ -87,6 +131,9 @@ const SignUpScreen = () => {
 export default SignUpScreen
 
 const styles = StyleSheet.create({
+    inputFocused: {
+        backgroundColor: '#ff0000'
+    },
     registerViewAll: {
         display: 'flex',
         flex: 1,
