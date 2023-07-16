@@ -77,7 +77,7 @@ export default function App() {
               headerShown: false,
             }}
           /> */}
-                    {/* <Stack.Screen
+                    <Stack.Screen
                         name="Login"
                         component={LoginScreen}
                         style={{
@@ -86,9 +86,10 @@ export default function App() {
                             alignItems: 'center',
                             justifyContent: 'center',
                         }}
-                    /> */}
+                        options={{ headerShown: false }}
+                    />
                     <Stack.Screen
-                        name="SignIn"
+                        name="Register"
                         component={SignUpScreen}
                         style={{
                             display: 'flex',
@@ -96,9 +97,11 @@ export default function App() {
                             alignItems: 'center',
                             justifyContent: 'center',
                         }}
+                        options={{ headerShown: false }}
                     />
                 </Stack.Navigator>
             </NavigationContainer>
+
             {/* </FavoritesContextProvider> */}
         </>
     )

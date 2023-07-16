@@ -1,11 +1,11 @@
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useState, useRef } from 'react'
+import { Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useState, useRef, useEffect } from 'react'
 import IMAGE_APP from '../../assets/AppImage'
 import InputCustom from '../../components/inputCustom/inputCustom'
 import { ParseValid } from '../../lib/validate/ParseValid'
 import { Validate } from '../../lib/validate/Validate'
 
-const SignUpScreen = () => {
+const SignUpScreen = (props) => {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -14,42 +14,50 @@ const SignUpScreen = () => {
     const [listError, setListError] = useState({
         password: null,
         email: null,
-        confirmPW: null,
+        confirmPassword: null,
     })
     const [formValue, setFormValue] = useState({
         password: null,
         email: null,
-        confirmPW: null,
+        confirmPassword: null,
 
     })
+    useEffect(() => {
+
+    }, [])
 
     const handleChangeInput = (value, validate, name) => {
-        console.log("-=>>> name: ", name)
+        console.log("=>>> name: ", name)
+        console.log("=>>> value: ", value)
         if (name === "password") setPassword(value)
         if (name === "email") setEmail(value)
         if (name === "confirmPassword") setConfirmPassword(value)
 
-        const inputValue = value.trim()
-        // console.log(inputValue)
+
+        const inputValue = value.trim();
         const validObject = ParseValid(validate);
-        const error = Validate(name, inputValue, validObject);
+        const error = Validate(name, inputValue, validObject, password);
         setListError({ ...listError, [name]: error })
         setFormValue({ ...formValue, [name]: inputValue })
     }
+    console.log(listError)
     const handlePressRegister = () => {
 
     }
-    // console.log(listError)
-    // console.log("CfPassword", listError.confirmPW)
     return (
-        <View style={styles.registerViewAll}>
+        <SafeAreaView style={styles.registerViewAll} >
+            {/* <View style={styles.registerViewAll}> */}
             <View style={styles.registerView}>
-                {/* <View style={styles.back_arrowAll}>
-                    <View style={styles.back_arrow}>
+                <View style={styles.back_arrowAll}>
+                    <TouchableOpacity
+                        style={styles.back_arrow}
+                        onPress={() => {
+                            props.navigation.navigate('Login')
+                        }}
+                    >
                         <Image source={IMAGE_APP.back_arrow} />
-                    </View>
-                </View> */}
-
+                    </TouchableOpacity>
+                </View>
                 <View>
                     <Text style={styles.textRegister}>
                         Hello! Register to get started
@@ -69,7 +77,7 @@ const SignUpScreen = () => {
                         icon={IMAGE_APP.lock}
                         name={"password"}
                         validate={"required|minLength:6"}
-                        onChangeText={handleChangeInput}
+                        onChange={handleChangeInput}
                         err={listError.password} />
 
                     <InputCustom
@@ -77,8 +85,8 @@ const SignUpScreen = () => {
                         icon={IMAGE_APP.lock}
                         name={"confirmPassword"}
                         validate={"required|checkPw"}
-                        onChangeText={handleChangeInput}
-                        err={listError.confirmPW} />
+                        onChange={handleChangeInput}
+                        err={listError.confirmPassword} />
                 </View>
                 <View style={styles.buttonView} onPress={handlePressRegister}>
                     <Text style={styles.buttonStyle}>Register</Text>
@@ -121,11 +129,19 @@ const SignUpScreen = () => {
                         }}
                     >
                         Already have an account?{' '}
-                        <Text style={{ color: '#35C2C1' }}>Login Now</Text>
+                        <Text
+                            style={{ color: '#35C2C1' }}
+                            onPress={() => {
+                                props.navigation.navigate('Login')
+                            }}
+                        >
+                            Login Now
+                        </Text>
                     </Text>
                 </View>
             </View>
-        </View>
+            {/* </View> */}
+        </SafeAreaView>
     )
 }
 export default SignUpScreen
@@ -149,7 +165,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     back_arrowAll: {
-        width: '100%',
+        width: 331,
     },
     back_arrow: {
         display: 'flex',
