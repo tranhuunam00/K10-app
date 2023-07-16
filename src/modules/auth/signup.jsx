@@ -1,4 +1,12 @@
-import { Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import {
+    Image,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from 'react-native'
 import React, { useState, useRef, useEffect } from 'react'
 import IMAGE_APP from '../../assets/AppImage'
 import InputCustom from '../../components/inputCustom/inputCustom'
@@ -6,46 +14,39 @@ import { ParseValid } from '../../lib/validate/ParseValid'
 import { Validate } from '../../lib/validate/Validate'
 
 const SignUpScreen = (props) => {
-
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [confirmPassword, setConfirmPassword] = useState("")
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
 
     const [listError, setListError] = useState({
         password: null,
         email: null,
         confirmPassword: null,
     })
+    console.log('listError', listError)
     const [formValue, setFormValue] = useState({
         password: null,
         email: null,
         confirmPassword: null,
-
     })
-    useEffect(() => {
-
-    }, [])
 
     const handleChangeInput = (value, validate, name) => {
-        console.log("=>>> name: ", name)
-        console.log("=>>> value: ", value)
-        if (name === "password") setPassword(value)
-        if (name === "email") setEmail(value)
-        if (name === "confirmPassword") setConfirmPassword(value)
+        console.log('=>>> name: ', name)
+        console.log('=>>> value: ', value)
+        if (name === 'password') setPassword(value)
+        if (name === 'email') setEmail(value)
+        if (name === 'confirmPassword') setConfirmPassword(value)
 
-
-        const inputValue = value.trim();
-        const validObject = ParseValid(validate);
-        const error = Validate(name, inputValue, validObject, password);
+        const inputValue = value.trim()
+        const validObject = ParseValid(validate)
+        const error = Validate(name, inputValue, validObject, password)
         setListError({ ...listError, [name]: error })
         setFormValue({ ...formValue, [name]: inputValue })
     }
     console.log(listError)
-    const handlePressRegister = () => {
-
-    }
+    const handlePressRegister = () => {}
     return (
-        <SafeAreaView style={styles.registerViewAll} >
+        <SafeAreaView style={styles.registerViewAll}>
             {/* <View style={styles.registerViewAll}> */}
             <View style={styles.registerView}>
                 <View style={styles.back_arrowAll}>
@@ -67,31 +68,40 @@ const SignUpScreen = (props) => {
                     <InputCustom
                         label={'Email'}
                         icon={IMAGE_APP.email}
-                        name={"email"}
-                        validate={"required|regEmail"}
+                        name={'email'}
+                        validate={'required|regEmail'}
                         onChange={handleChangeInput}
-                        err={listError.email} />
+                        err={listError.email}
+                        styleErr={listError.email}
+                    />
 
                     <InputCustom
                         label={'Password'}
                         icon={IMAGE_APP.lock}
-                        name={"password"}
-                        validate={"required|minLength:6"}
+                        name={'password'}
+                        validate={'required|minLength:6'}
                         onChange={handleChangeInput}
-                        err={listError.password} />
+                        err={listError.password}
+                        secureTextEntry={true}
+                        iconErr={IMAGE_APP.eye_hide}
+                        styleErr={listError.password}
+                    />
 
                     <InputCustom
                         label={'Confirm password'}
                         icon={IMAGE_APP.lock}
-                        name={"confirmPassword"}
-                        validate={"required|checkPw"}
+                        name={'confirmPassword'}
+                        validate={'required|checkPw'}
                         onChange={handleChangeInput}
-                        err={listError.confirmPassword} />
+                        err={listError.confirmPassword}
+                        secureTextEntry={true}
+                        iconErr={IMAGE_APP.eye_hide}
+                        styleErr={listError.confirmPassword}
+                    />
                 </View>
                 <View style={styles.buttonView} onPress={handlePressRegister}>
                     <Text style={styles.buttonStyle}>Register</Text>
                 </View>
-
 
                 <View style={styles.continueView}>
                     <View style={styles.lineView} />
@@ -148,7 +158,7 @@ export default SignUpScreen
 
 const styles = StyleSheet.create({
     inputFocused: {
-        backgroundColor: '#ff0000'
+        backgroundColor: '#ff0000',
     },
     registerViewAll: {
         display: 'flex',

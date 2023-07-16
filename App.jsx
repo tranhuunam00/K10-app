@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Button, View, Text } from 'react-native'
+import { StyleSheet, Button, View, Text, TouchableOpacity } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
@@ -14,7 +14,7 @@ import LoginScreen from './src/modules/auth/login'
 const Stack = createNativeStackNavigator()
 const Drawer = createDrawerNavigator()
 
-function DrawerNavigator() {
+function DrawerNavigator(props) {
     return (
         <Drawer.Navigator
             screenOptions={{
@@ -46,6 +46,25 @@ function DrawerNavigator() {
                     ),
                 }}
             />
+            <Drawer.Screen
+                name="Logout"
+                component={Profile}
+                options={{
+                    drawerIcon: ({ color, size }) => (
+                        <TouchableOpacity
+                            onPress={() => {
+                                props.navigation.navigate('Login')
+                            }}
+                        >
+                            <Ionicons
+                                name="log-out"
+                                color={color}
+                                size={size}
+                            />
+                        </TouchableOpacity>
+                    ),
+                }}
+            />
         </Drawer.Navigator>
     )
 }
@@ -64,19 +83,13 @@ export default function App() {
                 }}
             >
                 <Stack.Navigator
+                    initialRouteName="Login"
                     screenOptions={{
                         headerStyle: { backgroundColor: '#351401' },
                         headerTintColor: 'white',
                         contentStyle: { backgroundColor: '#3f2f25' },
                     }}
                 >
-                    {/* <Stack.Screen
-            name="Drawer"
-            component={DrawerNavigator}
-            options={{
-              headerShown: false,
-            }}
-          /> */}
                     <Stack.Screen
                         name="Login"
                         component={LoginScreen}
@@ -98,6 +111,13 @@ export default function App() {
                             justifyContent: 'center',
                         }}
                         options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="Drawer"
+                        component={DrawerNavigator}
+                        options={{
+                            headerShown: false,
+                        }}
                     />
                 </Stack.Navigator>
             </NavigationContainer>

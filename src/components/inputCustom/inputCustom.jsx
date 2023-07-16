@@ -17,10 +17,10 @@ const InputCustom = ({
     validate,
     name,
     placeholder,
-    onChange = () => {
-    },
-
+    onChange = () => {},
+    styleErr,
 }) => {
+    console.log('styleErr', styleErr)
     const [isFocused, setIsFocused] = useState(false)
     const [inputValue, setInputValue] = useState('')
 
@@ -42,14 +42,17 @@ const InputCustom = ({
                         style={[
                             styles.TextInput,
                             isFocused && styles.inputFocused,
+                            styleErr && styles.inputError,
                         ]}
-
                         onFocus={handleFocus}
                         onBlur={handleBlur}
                         secureTextEntry={secureTextEntry}
                         name={name}
                         validate={validate}
-                        onChangeText={(value) => { onChange(value, validate, name), setInputValue(value) }}
+                        onChangeText={(value) => {
+                            onChange(value, validate, name),
+                                setInputValue(value)
+                        }}
                         placeholder={placeholder}
                     />
                     <Text
@@ -57,6 +60,7 @@ const InputCustom = ({
                             styles.label,
                             inputValue && styles.labelWithValue,
                             isFocused && styles.textFocused,
+                            styleErr && styles.labelError,
                         ]}
                     >
                         {label}
@@ -101,6 +105,7 @@ const styles = StyleSheet.create({
     label: {
         position: 'absolute',
         left: 40,
+        zIndex: -2,
     },
     labelWithValue: {
         top: -10,
@@ -110,6 +115,7 @@ const styles = StyleSheet.create({
         paddingRight: 5,
         paddingLeft: 5,
         fontWeight: '500',
+        zIndex: 2,
         // opacity: 0.4,
     },
     icon: {
@@ -129,6 +135,12 @@ const styles = StyleSheet.create({
     },
     textFocused: {
         color: '#00f',
+    },
+    inputError: {
+        borderColor: '#FF0000',
+    },
+    labelError: {
+        color: '#FF0000',
     },
 })
 

@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import {
+    Image,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from 'react-native'
 import React from 'react'
 import IMAGE_APP from '../../assets/AppImage'
 import InputCustom from '../../components/inputCustom/inputCustom'
@@ -43,9 +50,14 @@ const LoginScreen = (props) => {
                         icon={IMAGE_APP.lock}
                     /> */}
                 </View>
-                <View style={styles.buttonView}>
+                <TouchableOpacity
+                    style={styles.buttonView}
+                    onPress={() => {
+                        props.navigation.navigate('Drawer')
+                    }}
+                >
                     <Text style={styles.buttonStyle}>Login</Text>
-                </View>
+                </TouchableOpacity>
                 <View style={styles.continueView}>
                     <View style={styles.lineView} />
                     <Text style={styles.textView}>Or Login with</Text>
