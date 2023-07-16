@@ -3,7 +3,7 @@ import React from 'react'
 import IMAGE_APP from '../../assets/AppImage'
 import InputCustom from '../../components/inputCustom/inputCustom'
 
-const LoginScreen = () => {
+const LoginScreen = (props) => {
     return (
         <View style={styles.registerViewAll}>
             <View style={styles.registerView}>
@@ -82,7 +82,14 @@ const LoginScreen = () => {
                         }}
                     >
                         Don’t have an account?{' '}
-                        <Text style={{ color: '#35C2C1' }}>Register Now</Text>
+                        <Text
+                            style={{ color: '#35C2C1' }}
+                            onPress={() => {
+                                props.navigation.navigate('Register')
+                            }}
+                        >
+                            Register Now
+                        </Text>
                     </Text>
                 </View>
             </View>

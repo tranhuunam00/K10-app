@@ -1,17 +1,31 @@
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import {
+    Image,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from 'react-native'
 import React from 'react'
 import IMAGE_APP from '../../assets/AppImage'
 import InputCustom from '../../components/inputCustom/inputCustom'
 
-const SignUpScreen = () => {
+const SignUpScreen = (props) => {
     return (
-        <View style={styles.registerViewAll}>
+        <SafeAreaView style={styles.registerViewAll}>
+            {/* <View style={styles.registerViewAll}> */}
             <View style={styles.registerView}>
-                {/* <View style={styles.back_arrowAll}>
-                    <View style={styles.back_arrow}>
+                <View style={styles.back_arrowAll}>
+                    <TouchableOpacity
+                        style={styles.back_arrow}
+                        onPress={() => {
+                            props.navigation.navigate('Login')
+                        }}
+                    >
                         <Image source={IMAGE_APP.back_arrow} />
-                    </View>
-                </View> */}
+                    </TouchableOpacity>
+                </View>
                 <View>
                     <Text style={styles.textRegister}>
                         Hello! Register to get started
@@ -77,11 +91,19 @@ const SignUpScreen = () => {
                         }}
                     >
                         Already have an account?{' '}
-                        <Text style={{ color: '#35C2C1' }}>Login Now</Text>
+                        <Text
+                            style={{ color: '#35C2C1' }}
+                            onPress={() => {
+                                props.navigation.navigate('Login')
+                            }}
+                        >
+                            Login Now
+                        </Text>
                     </Text>
                 </View>
             </View>
-        </View>
+            {/* </View> */}
+        </SafeAreaView>
     )
 }
 export default SignUpScreen
@@ -102,7 +124,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     back_arrowAll: {
-        width: '100%',
+        width: 331,
     },
     back_arrow: {
         display: 'flex',

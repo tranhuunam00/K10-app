@@ -1,4 +1,4 @@
-import react, { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
     StyleSheet,
     Text,
@@ -18,12 +18,21 @@ const InputCustom = ({
     onChange = () => {},
 }) => {
     const [isFocused, setIsFocused] = useState(false)
+    const [inputValue, setInputValue] = useState('')
+
     const handleFocus = () => {
         setIsFocused(true)
     }
+
     const handleBlur = () => {
         setIsFocused(false)
     }
+
+    const handleChangeText = (text) => {
+        setInputValue(text)
+        onChange(text)
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.InputCustom}>
@@ -34,15 +43,21 @@ const InputCustom = ({
                         style={[
                             styles.TextInput,
                             isFocused && styles.inputFocused,
+                            // inputValue && styles.inputWithValue,
                         ]}
                         onFocus={handleFocus}
                         onBlur={handleBlur}
                         secureTextEntry={secureTextEntry}
                         validate={validate}
-                        onChange={(e) => onChange(e.target)}
+                        onChangeText={handleChangeText}
+                        value={inputValue}
                     />
                     <Text
-                        style={[styles.label, isFocused && styles.labelFocused]}
+                        style={[
+                            styles.label,
+                            inputValue && styles.labelWithValue,
+                            isFocused && styles.textFocused,
+                        ]}
                     >
                         {label}
                     </Text>
@@ -71,9 +86,10 @@ const styles = StyleSheet.create({
         paddingLeft: 40,
         paddingRight: 40,
         borderRadius: 10,
-        zIndex: 2,
     },
-
+    inputWithValue: {
+        // paddingTop: 10,
+    },
     error: {
         color: '#FF0000',
         marginLeft: 10,
@@ -85,6 +101,16 @@ const styles = StyleSheet.create({
     label: {
         position: 'absolute',
         left: 40,
+    },
+    labelWithValue: {
+        top: -10,
+        fontSize: 14,
+        // color: '#00f',
+        backgroundColor: '#FFF',
+        paddingRight: 5,
+        paddingLeft: 5,
+        fontWeight: '500',
+        // opacity: 0.4,
     },
     icon: {
         width: 24,
@@ -101,16 +127,8 @@ const styles = StyleSheet.create({
     inputFocused: {
         borderColor: '#00f',
     },
-    labelFocused: {
-        top: -10,
-        fontSize: 14,
+    textFocused: {
         color: '#00f',
-        backgroundColor: '#FFF',
-        paddingRight: 5,
-        paddingLeft: 5,
-        fontWeight: 500,
-        opacity: 4,
-        zIndex: 2,
     },
 })
 
