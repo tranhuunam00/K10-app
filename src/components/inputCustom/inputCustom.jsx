@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
     StyleSheet,
     Text,
@@ -15,7 +15,11 @@ const InputCustom = ({
     iconErr,
     secureTextEntry,
     validate,
-    onChange = () => {},
+    name,
+    placeholder,
+    onChange = () => {
+    },
+
 }) => {
     const [isFocused, setIsFocused] = useState(false)
     const [inputValue, setInputValue] = useState('')
@@ -28,11 +32,6 @@ const InputCustom = ({
         setIsFocused(false)
     }
 
-    const handleChangeText = (text) => {
-        setInputValue(text)
-        onChange(text)
-    }
-
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.InputCustom}>
@@ -43,14 +42,15 @@ const InputCustom = ({
                         style={[
                             styles.TextInput,
                             isFocused && styles.inputFocused,
-                            // inputValue && styles.inputWithValue,
                         ]}
+
                         onFocus={handleFocus}
                         onBlur={handleBlur}
                         secureTextEntry={secureTextEntry}
+                        name={name}
                         validate={validate}
-                        onChangeText={handleChangeText}
-                        value={inputValue}
+                        onChangeText={(value) => { onChange(value, validate, name), setInputValue(value) }}
+                        placeholder={placeholder}
                     />
                     <Text
                         style={[
