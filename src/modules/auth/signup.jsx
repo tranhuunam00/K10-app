@@ -23,7 +23,6 @@ const SignUpScreen = (props) => {
         email: null,
         confirmPassword: null,
     })
-    console.log('listError', listError)
     const [formValue, setFormValue] = useState({
         password: null,
         email: null,
@@ -31,8 +30,6 @@ const SignUpScreen = (props) => {
     })
 
     const handleChangeInput = (value, validate, name) => {
-        console.log('=>>> name: ', name)
-        console.log('=>>> value: ', value)
         if (name === 'password') setPassword(value)
         if (name === 'email') setEmail(value)
         if (name === 'confirmPassword') setConfirmPassword(value)
@@ -43,8 +40,7 @@ const SignUpScreen = (props) => {
         setListError({ ...listError, [name]: error })
         setFormValue({ ...formValue, [name]: inputValue })
     }
-    console.log(listError)
-    const handlePressRegister = () => {}
+    const handlePressRegister = () => { }
     return (
         <SafeAreaView style={styles.registerViewAll}>
             {/* <View style={styles.registerViewAll}> */}

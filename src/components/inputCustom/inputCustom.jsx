@@ -17,10 +17,9 @@ const InputCustom = ({
     validate,
     name,
     placeholder,
-    onChange = () => {},
+    onChange = () => { },
     styleErr,
 }) => {
-    console.log('styleErr', styleErr)
     const [isFocused, setIsFocused] = useState(false)
     const [inputValue, setInputValue] = useState('')
 

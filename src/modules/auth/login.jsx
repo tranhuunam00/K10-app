@@ -2,15 +2,38 @@ import {
     Image,
     StyleSheet,
     Text,
-    TextInput,
     TouchableOpacity,
     View,
 } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import IMAGE_APP from '../../assets/AppImage'
 import InputCustom from '../../components/inputCustom/inputCustom'
+import { ParseValid } from '../../lib/validate/ParseValid'
+import { Validate } from '../../lib/validate/Validate'
 
 const LoginScreen = (props) => {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const [listError, setListError] = useState({
+        password: null,
+        email: null,
+    })
+    const [formValue, setFormValue] = useState({
+        password: null,
+        email: null,
+    })
+
+    const handleChangeInput = (value, validate, name) => {
+        if (name === 'password') setPassword(value)
+        if (name === 'email') setEmail(value)
+
+        const inputValue = value.trim()
+        const validObject = ParseValid(validate)
+        const error = Validate(name, inputValue, validObject, password)
+        setListError({ ...listError, [name]: error })
+        setFormValue({ ...formValue, [name]: inputValue })
+    }
     return (
         <View style={styles.registerViewAll}>
             <View style={styles.registerView}>
@@ -38,12 +61,25 @@ const LoginScreen = (props) => {
               placeholder="Confirm password"
               style={styles.inputStyles}
           /> */}
-                    <InputCustom label={'Email'} icon={IMAGE_APP.email} />
+                    <InputCustom
+                        label={'Email'}
+                        icon={IMAGE_APP.email}
+                        name={"email"}
+                        onChange={handleChangeInput}
+                        err={listError.email}
+                        validate={'required|regEmail'}
+                        styleErr={listError.email} />
+
                     <InputCustom
                         label={'Password'}
                         icon={IMAGE_APP.lock}
+                        name={"password"}
                         iconErr={IMAGE_APP.eye_hide}
                         secureTextEntry={true}
+                        onChange={handleChangeInput}
+                        err={listError.password}
+                        validate={'required'}
+                        styleErr={listError.password}
                     />
                     {/* <InputCustom
                         label={'Confirm password'}
