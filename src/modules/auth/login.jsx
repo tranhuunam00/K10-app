@@ -12,8 +12,10 @@ import IMAGE_APP from '../../assets/AppImage'
 import InputCustom from '../../components/inputCustom/inputCustom'
 import { ParseValid } from '../../lib/validate/ParseValid'
 import { Validate } from '../../lib/validate/Validate'
-
+import Checkbox from 'expo-checkbox'
+import tw from 'twrnc'
 const LoginScreen = (props) => {
+    const [isChecked, setIsChecked] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -39,37 +41,40 @@ const LoginScreen = (props) => {
 
     const handleOnPressLogin = async () => {
         try {
-            const response = await fetch('http://3.85.3.86:9001/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-            const data = await response.json();
-            const token = data.token;
+            const response = await fetch(
+                'http://3.85.3.86:9001/api/auth/login',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                }
+            )
+            const data = await response.json()
+            const token = data.token
             if (response.status === 200) {
-                console.log("thanh cong")
+                console.log('thanh cong')
                 props.navigation.navigate('Drawer')
                 ToastAndroid.showWithGravity(
-                    "Đăng nhập thành công",
+                    'Đăng nhập thành công',
                     ToastAndroid.SHORT,
-                    ToastAndroid.CENTER,
+                    ToastAndroid.CENTER
                 )
             } else {
-                console.log("that bai")
+                console.log('that bai')
                 ToastAndroid.showWithGravity(
-                    "Tài khoản hoặc mật khẩu không đúng",
+                    'Tài khoản hoặc mật khẩu không đúng',
                     ToastAndroid.SHORT,
-                    ToastAndroid.CENTER,
+                    ToastAndroid.CENTER
                 )
             }
         } catch (error) {
-            console.error(error);
+            console.error(error)
         }
-        setEmail("")
-        setPassword("")
-    };
+        setEmail('')
+        setPassword('')
+    }
     return (
         <View style={styles.registerViewAll}>
             <View style={styles.registerView}>
@@ -101,17 +106,18 @@ const LoginScreen = (props) => {
                         value={email}
                         label={'Email'}
                         icon={IMAGE_APP.email}
-                        name={"email"}
+                        name={'email'}
                         onChange={handleChangeInput}
                         err={listError.email}
                         validate={'required|regEmail'}
-                        styleErr={listError.email} />
+                        styleErr={listError.email}
+                    />
 
                     <InputCustom
                         value={password}
                         label={'Password'}
                         icon={IMAGE_APP.lock}
-                        name={"password"}
+                        name={'password'}
                         iconErr={IMAGE_APP.eye_hide}
                         secureTextEntry={true}
                         onChange={handleChangeInput}
@@ -124,12 +130,23 @@ const LoginScreen = (props) => {
                         icon={IMAGE_APP.lock}
                     /> */}
                 </View>
+                <View
+                    style={tw`flex flex-row justify-start items-start w-[331px]`}
+                >
+                    <Checkbox
+                        value={isChecked}
+                        onValueChange={setIsChecked}
+                        color={isChecked ? '#00f' : undefined}
+                    />
+                    <Text style={tw`ml-[5px]`}>Lưu thông tin</Text>
+                </View>
                 <TouchableOpacity
                     style={styles.buttonView}
                     onPress={
                         // props.navigation.navigate('Drawer')
                         handleOnPressLogin
-                    }>
+                    }
+                >
                     <Text style={styles.buttonStyle}>Login</Text>
                 </TouchableOpacity>
                 <View style={styles.continueView}>
