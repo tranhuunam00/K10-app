@@ -10,6 +10,8 @@ import 'react-native-gesture-handler'
 import SignUpScreen from './src/modules/auth/signup'
 import Profile from './src/modules/profile/profile'
 import LoginScreen from './src/modules/auth/login'
+import googleButton from './src/components/google/googleButton'
+import fbButton from './src/components/facebook/fbButton'
 
 const Stack = createNativeStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -90,7 +92,7 @@ export default function App() {
                         contentStyle: { backgroundColor: '#3f2f25' },
                     }}
                 >
-                    <Stack.Screen
+                    {/* <Stack.Screen
                         name="Login"
                         component={LoginScreen}
                         style={{
@@ -111,10 +113,10 @@ export default function App() {
                             justifyContent: 'center',
                         }}
                         options={{ headerShown: false }}
-                    />
+                    /> */}
                     <Stack.Screen
-                        name="Drawer"
-                        component={DrawerNavigator}
+                        name="loingg"
+                        component={fbButton}
                         options={{
                             headerShown: false,
                         }}
