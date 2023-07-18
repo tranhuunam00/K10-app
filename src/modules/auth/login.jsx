@@ -48,7 +48,6 @@ const LoginScreen = (props) => {
             });
             const data = await response.json();
             const token = data.token;
-
             if (response.status === 200) {
                 console.log("thanh cong")
                 props.navigation.navigate('Drawer')
@@ -59,6 +58,11 @@ const LoginScreen = (props) => {
                 )
             } else {
                 console.log("that bai")
+                ToastAndroid.showWithGravity(
+                    "Tài khoản hoặc mật khẩu không đúng",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.CENTER,
+                )
             }
         } catch (error) {
             console.error(error);
