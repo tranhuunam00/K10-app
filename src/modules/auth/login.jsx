@@ -1,9 +1,11 @@
 import {
+    Button,
     Image,
     StyleSheet,
     Text,
     TouchableOpacity,
     View,
+    ToastAndroid,
 } from 'react-native'
 import React, { useState } from 'react'
 import IMAGE_APP from '../../assets/AppImage'
@@ -34,6 +36,40 @@ const LoginScreen = (props) => {
         setListError({ ...listError, [name]: error })
         setFormValue({ ...formValue, [name]: inputValue })
     }
+
+    const handleOnPressLogin = async () => {
+        try {
+            const response = await fetch('http://3.85.3.86:9001/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+            const data = await response.json();
+            const token = data.token;
+            if (response.status === 200) {
+                console.log("thanh cong")
+                props.navigation.navigate('Drawer')
+                ToastAndroid.showWithGravity(
+                    "Đăng nhập thành công",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.CENTER,
+                )
+            } else {
+                console.log("that bai")
+                ToastAndroid.showWithGravity(
+                    "Tài khoản hoặc mật khẩu không đúng",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.CENTER,
+                )
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        setEmail("")
+        setPassword("")
+    };
     return (
         <View style={styles.registerViewAll}>
             <View style={styles.registerView}>
@@ -62,6 +98,7 @@ const LoginScreen = (props) => {
               style={styles.inputStyles}
           /> */}
                     <InputCustom
+                        value={email}
                         label={'Email'}
                         icon={IMAGE_APP.email}
                         name={"email"}
@@ -71,6 +108,7 @@ const LoginScreen = (props) => {
                         styleErr={listError.email} />
 
                     <InputCustom
+                        value={password}
                         label={'Password'}
                         icon={IMAGE_APP.lock}
                         name={"password"}
@@ -88,10 +126,10 @@ const LoginScreen = (props) => {
                 </View>
                 <TouchableOpacity
                     style={styles.buttonView}
-                    onPress={() => {
-                        props.navigation.navigate('Drawer')
-                    }}
-                >
+                    onPress={
+                        // props.navigation.navigate('Drawer')
+                        handleOnPressLogin
+                    }>
                     <Text style={styles.buttonStyle}>Login</Text>
                 </TouchableOpacity>
                 <View style={styles.continueView}>
