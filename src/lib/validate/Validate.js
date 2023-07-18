@@ -7,7 +7,6 @@ export const Validate = (
   password
 ) => {
   let error = null;
-  console.log("password", password);
   const reg = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   for (let key in listError) {
     switch (key) {
