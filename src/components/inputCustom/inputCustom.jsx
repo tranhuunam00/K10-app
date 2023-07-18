@@ -19,6 +19,7 @@ const InputCustom = ({
     placeholder,
     onChange = () => { },
     styleErr,
+    value
 }) => {
     const [isFocused, setIsFocused] = useState(false)
     const [inputValue, setInputValue] = useState('')
@@ -53,6 +54,7 @@ const InputCustom = ({
                                 setInputValue(value)
                         }}
                         placeholder={placeholder}
+                        value={value}
                     />
                     <Text
                         style={[
