@@ -4,6 +4,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    ToastAndroid,
     TouchableOpacity,
     View,
 } from 'react-native'
@@ -40,7 +41,37 @@ const SignUpScreen = (props) => {
         setListError({ ...listError, [name]: error })
         setFormValue({ ...formValue, [name]: inputValue })
     }
-    const handlePressRegister = () => { }
+    const handlePressRegister = () => {
+        if (!email || !password || !confirmPassword) {
+            console.log('Error: Vui long nhap day du thong tin')
+            return ToastAndroid.showWithGravity(
+                'Error: Vui long nhap day du thong tin',
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            )
+        }
+        if (
+            listError.email ||
+            listError.password ||
+            listError.confirmPassword
+        ) {
+            console.log('Error: Vui long nhap cac truong dung dinh dang')
+            return ToastAndroid.showWithGravity(
+                'Error: Vui long nhap cac truong dung dinh dang',
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            )
+        }
+        if (password !== confirmPassword) {
+            console.log('Error: Confirm password thì chưa đúng')
+            return ToastAndroid.showWithGravity(
+                'Error: Confirm password thì chưa đúng',
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            )
+        }
+        return console.log('Register thanh cong')
+    }
     return (
         <SafeAreaView style={styles.registerViewAll}>
             {/* <View style={styles.registerViewAll}> */}
@@ -95,9 +126,12 @@ const SignUpScreen = (props) => {
                         styleErr={listError.confirmPassword}
                     />
                 </View>
-                <View style={styles.buttonView} onPress={handlePressRegister}>
+                <TouchableOpacity
+                    style={styles.buttonView}
+                    onPress={handlePressRegister}
+                >
                     <Text style={styles.buttonStyle}>Register</Text>
-                </View>
+                </TouchableOpacity>
 
                 <View style={styles.continueView}>
                     <View style={styles.lineView} />
@@ -233,7 +267,7 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderRadius: 8,
         backgroundColor: '#1E232C',
-        paddingTop: 19,
+        paddingTop: 17,
     },
     buttonStyle: {
         color: '#fff',
