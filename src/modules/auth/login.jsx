@@ -16,6 +16,7 @@ import { ParseValid } from '../../lib/validate/ParseValid'
 import { Validate } from '../../lib/validate/Validate'
 import Checkbox from 'expo-checkbox'
 import tw from 'twrnc'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const LoginScreen = (props) => {
     const [isChecked, setIsChecked] = useState(false)
     const [email, setEmail] = useState('')
@@ -29,26 +30,23 @@ const LoginScreen = (props) => {
         password: null,
         email: null,
     })
-    const NotifyMessage = (msg) => {
+    const NotifyMessage = (msg, text) => {
         if (Platform.OS === 'android') {
             ToastAndroid.show(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
         } else {
             Alert.alert(
                 msg,
+                text,
                 [
-                    {
-                        text: 'Hủy',
-                        onPress: () => console.log('Hủy'),
-                        style: 'cancel'
-                    },
-                    { text: 'OK', onPress: () => console.log('OK') }
+                    { text: 'OK' }
                 ],
-                { cancelable: false }
+                { cancelable: 1000 }
             );
         }
     }
 
     const handleChangeInput = (value, validate, name) => {
+
         if (name === 'password') setPassword(value)
         if (name === 'email') setEmail(value)
 
@@ -60,6 +58,7 @@ const LoginScreen = (props) => {
     }
 
     const handleOnPressLogin = async () => {
+        const key = "accountApp"
         try {
             const response = await fetch(
                 'http://3.85.3.86:9001/api/auth/login',
@@ -77,9 +76,12 @@ const LoginScreen = (props) => {
                 console.log('thanh cong')
                 props.navigation.navigate('Drawer')
                 NotifyMessage("Thanh cong")
+                if (isChecked === true) {
+                    AsyncStorage.setItem(key, { email, password });
+                }
             } else {
                 console.log('that bai')
-                NotifyMessage("That bai")
+                NotifyMessage("Đăng nhập thất bại", "Tài khoản hoặc mật khẩu không đúng")
             }
         } catch (error) {
             console.error(error)
