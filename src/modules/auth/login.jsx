@@ -6,6 +6,8 @@ import {
     TouchableOpacity,
     View,
     ToastAndroid,
+    Platform,
+    Alert,
 } from 'react-native'
 import React, { useState } from 'react'
 import IMAGE_APP from '../../assets/AppImage'
@@ -27,6 +29,24 @@ const LoginScreen = (props) => {
         password: null,
         email: null,
     })
+    const NotifyMessage = (msg) => {
+        if (Platform.OS === 'android') {
+            ToastAndroid.show(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
+        } else {
+            Alert.alert(
+                msg,
+                [
+                    {
+                        text: 'Hủy',
+                        onPress: () => console.log('Hủy'),
+                        style: 'cancel'
+                    },
+                    { text: 'OK', onPress: () => console.log('OK') }
+                ],
+                { cancelable: false }
+            );
+        }
+    }
 
     const handleChangeInput = (value, validate, name) => {
         if (name === 'password') setPassword(value)
@@ -56,18 +76,10 @@ const LoginScreen = (props) => {
             if (response.status === 200) {
                 console.log('thanh cong')
                 props.navigation.navigate('Drawer')
-                ToastAndroid.showWithGravity(
-                    'Đăng nhập thành công',
-                    ToastAndroid.SHORT,
-                    ToastAndroid.CENTER
-                )
+                NotifyMessage("Thanh cong")
             } else {
                 console.log('that bai')
-                ToastAndroid.showWithGravity(
-                    'Tài khoản hoặc mật khẩu không đúng',
-                    ToastAndroid.SHORT,
-                    ToastAndroid.CENTER
-                )
+                NotifyMessage("That bai")
             }
         } catch (error) {
             console.error(error)
@@ -78,30 +90,12 @@ const LoginScreen = (props) => {
     return (
         <View style={styles.registerViewAll}>
             <View style={styles.registerView}>
-                {/* <View style={styles.back_arrowAll}>
-          <View style={styles.back_arrow}>
-              <Image source={IMAGE_APP.back_arrow} />
-          </View>
-      </View> */}
                 <View>
                     <Text style={styles.textRegister}>
                         Welcome back! Glad to see you, Again!
                     </Text>
                 </View>
                 <View style={styles.inputView}>
-                    {/* <TextInput
-              placeholder="Username"
-              style={styles.inputStyle}
-          />
-          <TextInput placeholder="Email" style={styles.inputStyles} />
-          <TextInput
-              placeholder="Password"
-              style={styles.inputStyles}
-          />
-          <TextInput
-              placeholder="Confirm password"
-              style={styles.inputStyles}
-          /> */}
                     <InputCustom
                         value={email}
                         label={'Email'}
@@ -125,10 +119,6 @@ const LoginScreen = (props) => {
                         validate={'required'}
                         styleErr={listError.password}
                     />
-                    {/* <InputCustom
-                        label={'Confirm password'}
-                        icon={IMAGE_APP.lock}
-                    /> */}
                 </View>
                 <View
                     style={tw`flex flex-row justify-start items-start w-[331px]`}
@@ -143,7 +133,6 @@ const LoginScreen = (props) => {
                 <TouchableOpacity
                     style={styles.buttonView}
                     onPress={
-                        // props.navigation.navigate('Drawer')
                         handleOnPressLogin
                     }
                 >
@@ -210,7 +199,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     registerView: {
-        // display: 'flex',
         flex: 1,
         alignItems: 'center',
         width: '100%',
