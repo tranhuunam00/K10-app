@@ -10,11 +10,17 @@ import 'react-native-gesture-handler'
 import SignUpScreen from './src/modules/auth/signup'
 import Profile from './src/modules/profile/profile'
 import LoginScreen from './src/modules/auth/login'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Stack = createNativeStackNavigator()
 const Drawer = createDrawerNavigator()
 
 function DrawerNavigator(props) {
+    const key = "accountApp"
+    const handlerOnPressLogout = async () => {
+        await AsyncStorage.removeItem(key);
+        props.navigation.navigate('Login')
+    }
     return (
         <Drawer.Navigator
             screenOptions={{
@@ -52,9 +58,9 @@ function DrawerNavigator(props) {
                 options={{
                     drawerIcon: ({ color, size }) => (
                         <TouchableOpacity
-                            onPress={() => {
-                                props.navigation.navigate('Login')
-                            }}
+                            onPress={
+                                handlerOnPressLogout
+                            }
                         >
                             <Ionicons
                                 name="log-out"

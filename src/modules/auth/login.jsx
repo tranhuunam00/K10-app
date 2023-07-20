@@ -18,6 +18,8 @@ import Checkbox from 'expo-checkbox'
 import tw from 'twrnc'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 const LoginScreen = (props) => {
+    const key = "accountApp"
+
     const [isChecked, setIsChecked] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -55,7 +57,6 @@ const LoginScreen = (props) => {
     }
 
     const handleOnPressLogin = async () => {
-        const key = 'accountApp'
         try {
             const response = await fetch(
                 'http://3.85.3.86:9001/api/auth/login',
@@ -72,10 +73,18 @@ const LoginScreen = (props) => {
             if (response.status === 200) {
                 console.log('thanh cong')
                 props.navigation.navigate('Drawer')
-                NotifyMessage('Thanh cong')
-                // if (isChecked === true) {
-                //     AsyncStorage.setItem(key, { email, password })
-                // }
+                NotifyMessage("Thanh cong")
+                if (isChecked === true) {
+                    const data = {
+                        email: email,
+                        password: password
+                    };
+                    const jsonData = JSON.stringify(data);
+                    await AsyncStorage.setItem(key, jsonData);
+                    console.log('Lưu dữ liệu thành công!');
+                } else {
+                    console.log('Lưu dữ liệu thất bại!');
+                }
             } else {
                 console.log('that bai')
                 NotifyMessage(
@@ -89,6 +98,37 @@ const LoginScreen = (props) => {
         setEmail('')
         setPassword('')
     }
+    const checkUserLoggedIn = async () => {
+        const jsonData = await AsyncStorage.getItem(key);
+        if (jsonData !== null) {
+            const userData = JSON.parse(jsonData);
+            console.log(userData)
+            try {
+                const response = await fetch(
+                    'http://3.85.3.86:9001/api/auth/login',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(userData),
+                    }
+                )
+                const data = await response.json()
+                if (response.status === 200) {
+                    console.log('thanh cong')
+                    props.navigation.navigate('Drawer')
+                    NotifyMessage("Thanh cong")
+                } else {
+                    console.log('that bai')
+                    NotifyMessage("Đăng nhập thất bại", "Tài khoản hoặc mật khẩu không đúng")
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
+    }
+    checkUserLoggedIn();
     return (
         <View style={styles.registerViewAll}>
             <View style={styles.registerView}>
@@ -107,7 +147,7 @@ const LoginScreen = (props) => {
                         err={listError.email}
                         validate={'required|regEmail'}
                         styleErr={listError.email}
-                    /> 
+                    />
 
                     <InputCustom
                         value={password}
