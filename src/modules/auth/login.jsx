@@ -102,6 +102,7 @@ const LoginScreen = (props) => {
         const jsonData = await AsyncStorage.getItem(key);
         if (jsonData !== null) {
             const userData = JSON.parse(jsonData);
+            console.log(userData)
             try {
                 const response = await fetch(
                     'http://3.85.3.86:9001/api/auth/login',
