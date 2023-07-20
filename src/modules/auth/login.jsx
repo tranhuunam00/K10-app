@@ -9,21 +9,26 @@ import {
     Platform,
     Alert,
 } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import IMAGE_APP from '../../assets/AppImage'
 import InputCustom from '../../components/inputCustom/inputCustom'
 import { ParseValid } from '../../lib/validate/ParseValid'
 import { Validate } from '../../lib/validate/Validate'
 import Checkbox from 'expo-checkbox'
 import tw from 'twrnc'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 const LoginScreen = (props) => {
     const key = "accountApp"
 
     const [isChecked, setIsChecked] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [emailLowerCase, setEmailLowerCase] = useState('')
 
+    useEffect(() => {
+        const lowerEmail = emailLowerCase.toLowerCase()
+        setEmail(lowerEmail)
+    }, [emailLowerCase])
     const [listError, setListError] = useState({
         password: null,
         email: null,
@@ -36,21 +41,13 @@ const LoginScreen = (props) => {
         if (Platform.OS === 'android') {
             ToastAndroid.show(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
         } else {
-            Alert.alert(
-                msg,
-                text,
-                [
-                    { text: 'OK' }
-                ],
-                { cancelable: 1000 }
-            );
+            Alert.alert(msg, text, [{ text: 'OK' }], { cancelable: 1000 })
         }
     }
 
     const handleChangeInput = (value, validate, name) => {
-
         if (name === 'password') setPassword(value)
-        if (name === 'email') setEmail(value)
+        if (name === 'email') setEmailLowerCase(value)
 
         const inputValue = value.trim()
         const validObject = ParseValid(validate)
@@ -90,7 +87,10 @@ const LoginScreen = (props) => {
                 }
             } else {
                 console.log('that bai')
-                NotifyMessage("Đăng nhập thất bại", "Tài khoản hoặc mật khẩu không đúng")
+                NotifyMessage(
+                    'Đăng nhập thất bại',
+                    'Tài khoản hoặc mật khẩu không đúng'
+                )
             }
         } catch (error) {
             console.error(error)
@@ -159,6 +159,7 @@ const LoginScreen = (props) => {
                         err={listError.password}
                         validate={'required'}
                         styleErr={listError.password}
+                        iconUnhidePass={IMAGE_APP.eye_unhide}
                     />
                 </View>
                 <View
@@ -173,9 +174,7 @@ const LoginScreen = (props) => {
                 </View>
                 <TouchableOpacity
                     style={styles.buttonView}
-                    onPress={
-                        handleOnPressLogin
-                    }
+                    onPress={handleOnPressLogin}
                 >
                     <Text style={styles.buttonStyle}>Login</Text>
                 </TouchableOpacity>
