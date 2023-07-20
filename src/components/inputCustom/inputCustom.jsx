@@ -6,6 +6,7 @@ import {
     View,
     Image,
     SafeAreaView,
+    TouchableOpacity,
 } from 'react-native'
 
 const InputCustom = ({
@@ -17,13 +18,15 @@ const InputCustom = ({
     validate,
     name,
     placeholder,
-    onChange = () => { },
+    onChange = () => {},
     styleErr,
-    value
+    value,
+    iconUnhidePass,
 }) => {
     const [isFocused, setIsFocused] = useState(false)
     const [inputValue, setInputValue] = useState('')
-
+    const [isChecked, setIsChecked] = useState(secureTextEntry)
+    // console.log('isChecked', isChecked)
     const handleFocus = () => {
         setIsFocused(true)
     }
@@ -46,7 +49,7 @@ const InputCustom = ({
                         ]}
                         onFocus={handleFocus}
                         onBlur={handleBlur}
-                        secureTextEntry={secureTextEntry}
+                        secureTextEntry={isChecked}
                         name={name}
                         validate={validate}
                         onChangeText={(value) => {
@@ -67,7 +70,17 @@ const InputCustom = ({
                         {label}
                     </Text>
                 </View>
-                <Image style={styles.iconErr} source={iconErr} />
+                <TouchableOpacity
+                    style={styles.iconErr}
+                    onPress={() =>
+                        isChecked ? setIsChecked(false) : setIsChecked(true)
+                    }
+                >
+                    <Image
+                        style={styles.iconErr}
+                        source={isChecked ? iconErr : iconUnhidePass}
+                    />
+                </TouchableOpacity>
             </View>
             <Text style={styles.error}>{err}</Text>
         </SafeAreaView>

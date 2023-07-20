@@ -1,4 +1,5 @@
 import {
+    Alert,
     Image,
     SafeAreaView,
     StyleSheet,
@@ -18,7 +19,14 @@ const SignUpScreen = (props) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [emailLowerCase, setEmailLowerCase] = useState('')
 
+    useEffect(() => {
+        const lowerEmail = emailLowerCase.toLowerCase()
+        setEmail(lowerEmail)
+    }, [emailLowerCase])
+    // console.log('emailLowerCase', emailLowerCase)
+    // console.log('email', email)
     const [listError, setListError] = useState({
         password: null,
         email: null,
@@ -29,10 +37,16 @@ const SignUpScreen = (props) => {
         email: null,
         confirmPassword: null,
     })
-
+    const NotifyMessage = (msg, text) => {
+        if (Platform.OS === 'android') {
+            ToastAndroid.show(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
+        } else {
+            Alert.alert(msg, text, [{ text: 'OK' }], { cancelable: 1000 })
+        }
+    }
     const handleChangeInput = (value, validate, name) => {
         if (name === 'password') setPassword(value)
-        if (name === 'email') setEmail(value)
+        if (name === 'email') setEmailLowerCase(value)
         if (name === 'confirmPassword') setConfirmPassword(value)
 
         const inputValue = value.trim()
@@ -41,14 +55,10 @@ const SignUpScreen = (props) => {
         setListError({ ...listError, [name]: error })
         setFormValue({ ...formValue, [name]: inputValue })
     }
-    const handlePressRegister = () => {
+    const handlePressRegister = async () => {
         if (!email || !password || !confirmPassword) {
             console.log('Error: Vui long nhap day du thong tin')
-            return ToastAndroid.showWithGravity(
-                'Error: Vui long nhap day du thong tin',
-                ToastAndroid.SHORT,
-                ToastAndroid.CENTER
-            )
+            return NotifyMessage('Error: Vui long nhap day du thong tin')
         }
         if (
             listError.email ||
@@ -56,21 +66,46 @@ const SignUpScreen = (props) => {
             listError.confirmPassword
         ) {
             console.log('Error: Vui long nhap cac truong dung dinh dang')
-            return ToastAndroid.showWithGravity(
-                'Error: Vui long nhap cac truong dung dinh dang',
-                ToastAndroid.SHORT,
-                ToastAndroid.CENTER
+            return NotifyMessage(
+                'Error: Vui long nhap cac truong dung dinh dang'
             )
         }
         if (password !== confirmPassword) {
             console.log('Error: Confirm password thì chưa đúng')
-            return ToastAndroid.showWithGravity(
-                'Error: Confirm password thì chưa đúng',
-                ToastAndroid.SHORT,
-                ToastAndroid.CENTER
-            )
+            return NotifyMessage('Error: Confirm password thì chưa đúng')
         }
-        return console.log('Register thanh cong')
+        try {
+            const response = await fetch(
+                'http://3.85.3.86:9001/api/auth/sign-in',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                }
+            )
+            const data = await response.json()
+            // const token = data.token
+            if (response.status === 201) {
+                console.log(data.message)
+                props.navigation.navigate('Login')
+                NotifyMessage('Dang ky thanh cong')
+                setEmail('')
+                setPassword('')
+                setConfirmPassword('')
+            } else {
+                console.log(data.message)
+                NotifyMessage(
+                    data.message,
+                    'Vui long kiem tra lai tai khoan, mat khau'
+                )
+            }
+        } catch (error) {
+            console.error(error)
+        }
+
+        return console.log('Ended')
     }
     return (
         <SafeAreaView style={styles.registerViewAll}>
@@ -112,6 +147,7 @@ const SignUpScreen = (props) => {
                         secureTextEntry={true}
                         iconErr={IMAGE_APP.eye_hide}
                         styleErr={listError.password}
+                        iconUnhidePass={IMAGE_APP.eye_unhide}
                     />
 
                     <InputCustom
@@ -124,6 +160,7 @@ const SignUpScreen = (props) => {
                         secureTextEntry={true}
                         iconErr={IMAGE_APP.eye_hide}
                         styleErr={listError.confirmPassword}
+                        iconUnhidePass={IMAGE_APP.eye_unhide}
                     />
                 </View>
                 <TouchableOpacity
