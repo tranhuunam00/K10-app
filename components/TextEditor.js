@@ -14,11 +14,13 @@ const TextEditor = () => {
   const onChangeText = (newText) => {
     setText(newText);
     saveText(newText);
+    console.log("New text:", newText);
   };
 
   const saveText = async (newText) => {
     try {
       await AsyncStorage.setItem("@text_editor_content", newText);
+      console.log("Text saved successfully:", newText);
     } catch (e) {
       console.error("Error saving text:", e);
     }
@@ -29,6 +31,7 @@ const TextEditor = () => {
       const savedText = await AsyncStorage.getItem("@text_editor_content");
       if (savedText !== null) {
         setText(savedText);
+        console.log("Text loaded successfully:", savedText);
       }
     } catch (e) {
       console.error("Error loading text:", e);
@@ -45,21 +48,30 @@ const TextEditor = () => {
       {/* Toolbar */}
       <View style={styles.toolbar}>
         {/* Font Size Buttons */}
-        <TouchableOpacity onPress={() => setFontSize(16)}>
+        <TouchableOpacity onPress={() => {
+          setFontSize(16);
+          console.log("Font size selected:", 16);
+        }}>
           <MaterialIcons
             name="text-format"
             size={24}
             color={fontSize === 16 ? "black" : "grey"}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setFontSize(20)}>
+        <TouchableOpacity onPress={() => {
+          setFontSize(20);
+          console.log("Font size selected:", 20);
+        }}>
           <MaterialIcons
             name="text-format"
             size={28}
             color={fontSize === 20 ? "black" : "grey"}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setFontSize(24)}>
+        <TouchableOpacity onPress={() => {
+          setFontSize(24);
+          console.log("Font size selected:", 24);
+        }}>
           <MaterialIcons
             name="text-format"
             size={32}
@@ -68,11 +80,10 @@ const TextEditor = () => {
         </TouchableOpacity>
 
         {/* Font Weight (Bold) Button */}
-        <TouchableOpacity
-          onPress={() =>
-            setFontWeight(fontWeight === "bold" ? "normal" : "bold")
-          }
-        >
+        <TouchableOpacity onPress={() => {
+          setFontWeight(fontWeight === "bold" ? "normal" : "bold");
+          console.log("Font weight selected:", fontWeight === "bold" ? "normal" : "bold");
+        }}>
           <MaterialIcons
             name="format-bold"
             size={24}
@@ -81,7 +92,10 @@ const TextEditor = () => {
         </TouchableOpacity>
 
         {/* Underline Button */}
-        <TouchableOpacity onPress={() => setUnderline(!underline)}>
+        <TouchableOpacity onPress={() => {
+          setUnderline(!underline);
+          console.log("Underline selected:", !underline);
+        }}>
           <MaterialIcons
             name="format-underlined"
             size={24}
@@ -90,7 +104,10 @@ const TextEditor = () => {
         </TouchableOpacity>
 
         {/* Italic Button */}
-        <TouchableOpacity onPress={() => setItalic(!italic)}>
+        <TouchableOpacity onPress={() => {
+          setItalic(!italic);
+          console.log("Italic selected:", !italic);
+        }}>
           <MaterialIcons
             name="format-italic"
             size={24}
@@ -99,21 +116,30 @@ const TextEditor = () => {
         </TouchableOpacity>
 
         {/* Alignment Buttons */}
-        <TouchableOpacity onPress={() => setTextAlign("left")}>
+        <TouchableOpacity onPress={() => {
+          setTextAlign("left");
+          console.log("Text align selected:", "left");
+        }}>
           <MaterialIcons
             name="format-align-left"
             size={24}
             color={textAlign === "left" ? "black" : "grey"}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setTextAlign("center")}>
+        <TouchableOpacity onPress={() => {
+          setTextAlign("center");
+          console.log("Text align selected:", "center");
+        }}>
           <MaterialIcons
             name="format-align-center"
             size={24}
             color={textAlign === "center" ? "black" : "grey"}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setTextAlign("right")}>
+        <TouchableOpacity onPress={() => {
+          setTextAlign("right");
+          console.log("Text align selected:", "right");
+        }}>
           <MaterialIcons
             name="format-align-right"
             size={24}
@@ -141,6 +167,7 @@ const TextEditor = () => {
         placeholderTextColor="#999"
       />
     </View>
+    
   );
 };
 
