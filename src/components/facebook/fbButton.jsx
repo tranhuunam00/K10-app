@@ -1,4 +1,4 @@
-import { View, Image, TouchableOpacity, StyleSheet } from "react-native"
+import { View, Image, TouchableOpacity, StyleSheet, Text } from "react-native"
 import * as facebook from "expo-auth-session/providers/facebook"
 import * as webBrowser from "expo-web-browser"
 import { useEffect, useState } from "react";
@@ -6,7 +6,7 @@ webBrowser.maybeCompleteAuthSession();
 export default function fbButton() {
     const [userInto, setUserInto] = useState(null);
     const [request, response, prompAsync] = facebook.useAuthRequest({
-        clientId: "1048365296542388"
+        clientId: "2198988143627177"
     });
 
     useEffect(() => {
@@ -29,6 +29,7 @@ export default function fbButton() {
     }
     return (
         <View style={styles.container}>
+            <Text>{JSON.stringify(userInto)}</Text>
             <TouchableOpacity style={styles.button} onPress={handlePressAsync}>
                 <Image
                     style={styles.tinyLogo}

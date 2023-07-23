@@ -11,8 +11,8 @@ export default function googleButton() {
     const [request, response, prompAsync] = Google.useAuthRequest({
         clientId: "673866304907-6aljq6vmfsamujvi498nv3u7tqaqko9b.apps.googleusercontent.com",
         webClientId: "673866304907-6aljq6vmfsamujvi498nv3u7tqaqko9b.apps.googleusercontent.com",
-        iosClientId: "673866304907-p2vs7u7pjqg4vtntndr9lj0f125rvebl.apps.googleusercontent.com",
-        androidClientId: "673866304907-ph673cl37fhfmhtnegsgdpg636df9f88.apps.googleusercontent.com"
+        iosClientId: "673866304907-u4m6v59sj7ukgis7ua8s8ieeunp4ncuq.apps.googleusercontent.com",
+        androidClientId: "673866304907-kcrcc4ca0kihekdtgn16ibocbb03mo15.apps.googleusercontent.com"
     });
 console.log(response)
     useEffect(() => { handleSinginWithGoogle() }, [response])
