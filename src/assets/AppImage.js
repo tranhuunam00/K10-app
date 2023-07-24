@@ -9,6 +9,10 @@ import lock from './icons/lock.png'
 import eye from './icons/eye.png'
 import eye_unhide from './icons/eye_unhide.png'
 import eye_hide from './icons/eye_hide.png'
+import avatar from './images/avt.png'
+import edit from './icons/edit.png'
+import arrowright from './icons/arrowright.png'
+
 const IMAGE_APP = {
     back_arrow,
     cib_apple,
@@ -21,6 +25,9 @@ const IMAGE_APP = {
     eye,
     eye_unhide,
     eye_hide,
+    avatar,
+    edit,
+    arrowright,
 }
 
 export default IMAGE_APP

@@ -16,9 +16,9 @@ const Stack = createNativeStackNavigator()
 const Drawer = createDrawerNavigator()
 
 function DrawerNavigator(props) {
-    const key = "accountApp"
+    const key = 'accountApp'
     const handlerOnPressLogout = async () => {
-        await AsyncStorage.removeItem(key);
+        await AsyncStorage.removeItem(key)
         props.navigation.navigate('Login')
     }
     return (
@@ -31,6 +31,7 @@ function DrawerNavigator(props) {
                 drawerInactiveTintColor: 'white',
                 drawerActiveTintColor: '#351401',
                 drawerActiveBackgroundColor: '#e4baa1',
+                headerShown: true,
             }}
         >
             <Drawer.Screen
@@ -57,11 +58,7 @@ function DrawerNavigator(props) {
                 component={Profile}
                 options={{
                     drawerIcon: ({ color, size }) => (
-                        <TouchableOpacity
-                            onPress={
-                                handlerOnPressLogout
-                            }
-                        >
+                        <TouchableOpacity onPress={handlerOnPressLogout}>
                             <Ionicons
                                 name="log-out"
                                 color={color}
