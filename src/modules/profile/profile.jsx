@@ -56,7 +56,13 @@ const Profile = () => {
                 <View
                     style={tw`flex-row items-center justify-between  mt-[20px]`}
                 >
-                    <View >
+                    <View
+
+                    >
+                        {/* <Image
+                            source={IMAGE_APP.avatar}
+                            style={tw`w-[100px] h-[100px] border rounded-[50px] `}
+                        /> */}
                         <AvatarUser />
                     </View>
                     <View>

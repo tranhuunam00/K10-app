@@ -12,8 +12,8 @@ import eye_hide from "./icons/eye_hide.png";
 import avatar from "./images/avt.png";
 import edit from "./icons/edit.png";
 import arrowright from "./icons/arrowright.png";
-import avatarGai from "./icons/357491142_1752224678565777_6405332729444939844_n.jpg";
 import camera from "./icons/icons8-camera.png";
+import avatarGai from "./icons/357491142_1752224678565777_6405332729444939844_n.jpg";
 
 const IMAGE_APP = {
   back_arrow,
@@ -30,8 +30,8 @@ const IMAGE_APP = {
   avatar,
   edit,
   arrowright,
-  avatarGai,
   camera,
+  avatarGai,
 };
 
 export default IMAGE_APP;

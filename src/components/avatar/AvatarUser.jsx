@@ -1,7 +1,6 @@
 import { Image, TouchableOpacity, View, StyleSheet } from "react-native"
 import IMAGE_APP from "../../assets/AppImage"
 import { useState } from "react";
-import { launchImageLibrary } from "react-native-image-picker";
 import * as ImagePicker from 'expo-image-picker';
 
 
