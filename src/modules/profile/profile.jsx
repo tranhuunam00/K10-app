@@ -5,6 +5,7 @@ import IMAGE_APP from '../../assets/AppImage'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import StatusCustom from '../../components/status/statusCustom'
 import DashboardCustom from '../../components/status/dashboardCustom'
+import AvatarUser from '../../components/avatar/AvatarUser'
 import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -56,12 +57,13 @@ const Profile = () => {
                     style={tw`flex-row items-center justify-between  mt-[20px]`}
                 >
                     <View
-                        style={tw`border rounded-[80px] w-[110px] h-[110px] flex items-center justify-center bg-[#ccc] `}
+
                     >
-                        <Image
+                        {/* <Image
                             source={IMAGE_APP.avatar}
                             style={tw`w-[100px] h-[100px] border rounded-[50px] `}
-                        />
+                        /> */}
+                        <AvatarUser />
                     </View>
                     <View>
                         <Text style={tw`font-bold text-[24px]`}>
