@@ -7,9 +7,8 @@ import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 webBrowser.maybeCompleteAuthSession();
 export default function googleButton() {
-    const [userInfo, setUserInfo] = useState(null);
+    const [userInfo, setUserInfo] = React.useState(null);
     const [request, response, prompAsync] = Google.useAuthRequest({
-        clientId: "673866304907-6aljq6vmfsamujvi498nv3u7tqaqko9b.apps.googleusercontent.com",
         webClientId: "673866304907-6aljq6vmfsamujvi498nv3u7tqaqko9b.apps.googleusercontent.com",
         iosClientId: "673866304907-u4m6v59sj7ukgis7ua8s8ieeunp4ncuq.apps.googleusercontent.com",
         androidClientId: "673866304907-kcrcc4ca0kihekdtgn16ibocbb03mo15.apps.googleusercontent.com"
@@ -48,7 +47,7 @@ console.log(response)
     return (
         <View style={styles.container}>
             <Text style={styles.textjson}>{JSON.stringify(userInfo)}</Text>
-            <TouchableOpacity style = {styles.button} onPress={prompAsync}>
+            <TouchableOpacity style = {styles.button} onPress={() => prompAsync()}>
                 <Image
                     style={styles.tinyLogo}
                     source={{

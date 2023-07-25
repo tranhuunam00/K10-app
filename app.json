@@ -12,9 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -28,9 +26,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": [
-      "k10-app",
-      "fb1048365296542388"
-    ]
+    "scheme": ["k10-app", "fb6320674227969437", "k10-app"]
   }
 }

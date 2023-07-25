@@ -116,7 +116,7 @@ export default function App() {
                     /> */}
                     <Stack.Screen
                         name="loingg"
-                        component={googleButton}
+                        component={fbButton}
                         options={{
                             headerShown: false,
                         }}
