@@ -5,9 +5,54 @@ import IMAGE_APP from '../../assets/AppImage'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import StatusCustom from '../../components/status/statusCustom'
 import DashboardCustom from '../../components/status/dashboardCustom'
+<<<<<<< HEAD
 import AvatarUser from '../../components/avatar/AvatarUser'
+=======
+import { useEffect, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+>>>>>>> origin/master-profile
 
 const Profile = () => {
+    const [userInfo, setUserInfo] = useState(null)
+
+    useEffect(() => {
+        const getUserInfo = async () => {
+            try {
+                // Lấy token đăng nhập từ AsyncStorage
+                const token = await AsyncStorage.getItem('@user_info')
+                console.log(token)
+                if (token) {
+                    // Gửi yêu cầu GET đến API để lấy thông tin người dùng
+                    const response = await fetch(
+                        'http://3.85.3.86:9001/api/users/profile',
+                        {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Bearer ${token}`, // Đưa token vào tiêu đề Authorization
+                            },
+                        }
+                    )
+                    console.log(`Bearer ${token}`)
+                    if (response.ok == true) {
+                        const userInfoData = await response.json()
+                        console.log(userInfoData)
+                        setUserInfo(userInfoData)
+                        return userInfoData // Lưu thông tin người dùng vào state
+                    } else {
+                        console.error('Error fetching user info')
+                    }
+                } else {
+                    console.error('No token found')
+                }
+            } catch (e) {
+                console.error('Error retrieving user info:', e)
+            }
+        }
+
+        getUserInfo()
+    }, [])
+
     return (
         <SafeAreaView style={tw`bg-white flex-1 `}>
             <View style={tw`mx-[24px]`}>
@@ -28,6 +73,36 @@ const Profile = () => {
                     <TouchableOpacity>
                         <Image source={IMAGE_APP.edit} />
                     </TouchableOpacity>
+                </View>
+                {/* Thông tin cá nhân */}
+                <View style={tw`mt-[40px]`}>
+                    <Text style={tw` text-[16px] text-[#777]`}>
+                        Thông tin cá nhân
+                    </Text>
+                    <View style={tw`flex-column mt-2`}>
+                        <View style={tw`flex-row`}>
+                            <Text style={tw`font-bold text-[18px]`}>
+                                Email:
+                            </Text>
+                            <Text style={tw`ml-3 text-[16px]`}>
+                                {userInfo ? userInfo.data.email : null}
+                            </Text>
+                        </View>
+                        <View style={tw`flex-row`}>
+                            <Text style={tw`font-bold text-[18px]`}>
+                                Gender:
+                            </Text>
+                            <Text style={tw`ml-3 text-[16px]`}>
+                                {userInfo ? userInfo.data.sex : null}
+                            </Text>
+                        </View>
+                        <View style={tw`flex-row`}>
+                            <Text style={tw`font-bold text-[18px]`}>Role:</Text>
+                            <Text style={tw`ml-3 text-[16px]`}>
+                                {userInfo ? userInfo.data.role : null}
+                            </Text>
+                        </View>
+                    </View>
                 </View>
                 {/* status */}
                 <View style={tw`mt-[40px]`}>
