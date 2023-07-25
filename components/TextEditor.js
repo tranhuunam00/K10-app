@@ -20,7 +20,7 @@ const handleHead = ({ tintColor }) => (
 const MyEditor = () => {
   const richText = useRef(); // Ref để tham chiếu đến RichEditor
 
-  const initialContentHTML = "<p>Initial Content</p>"; // Nội dung HTML ban đầu của trình soạn thảo
+  
 
   const filterHtmlTags = (html) => { // Hàm lọc thẻ HTML ra khỏi nội dung văn bản
     const regex = /(<([^>]+)>)/gi;
@@ -50,7 +50,7 @@ const MyEditor = () => {
           </Text>
           <RichEditor
             ref={richText} // Sử dụng ref để tham chiếu đến RichEditor
-            initialContentHTML={initialContentHTML} // Nội dung HTML ban đầu của trình soạn thảo
+            
             onChange={handleChangeText} // Gọi hàm handleChangeText khi nội dung trình soạn thảo thay đổi
           />
         </KeyboardAvoidingView>
