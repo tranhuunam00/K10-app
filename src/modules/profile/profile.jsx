@@ -5,12 +5,9 @@ import IMAGE_APP from '../../assets/AppImage'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import StatusCustom from '../../components/status/statusCustom'
 import DashboardCustom from '../../components/status/dashboardCustom'
-<<<<<<< HEAD
 import AvatarUser from '../../components/avatar/AvatarUser'
-=======
 import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
->>>>>>> origin/master-profile
 
 const Profile = () => {
     const [userInfo, setUserInfo] = useState(null)
