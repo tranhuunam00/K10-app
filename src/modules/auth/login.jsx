@@ -18,13 +18,13 @@ import Checkbox from 'expo-checkbox'
 import tw from 'twrnc'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 const LoginScreen = (props) => {
-    const key = "accountApp"
+    const key = 'accountApp'
 
     const [isChecked, setIsChecked] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [emailLowerCase, setEmailLowerCase] = useState('')
-
+    const [userInfo, setUserInfo] = useState(null)
     useEffect(() => {
         const lowerEmail = emailLowerCase.toLowerCase()
         setEmail(lowerEmail)
@@ -68,25 +68,29 @@ const LoginScreen = (props) => {
                     body: JSON.stringify({ email, password }),
                 }
             )
-            const data = await response.json()
-            const token = data.token
+
             if (response.status === 200) {
-                console.log('thanh cong')
+                const responseObject = await response.json()
+
+                const token = responseObject.data.token
+
+                console.log('token', token)
+
+                await AsyncStorage.setItem('@user_info', token)
                 props.navigation.navigate('Drawer')
-                NotifyMessage("Thanh cong")
+                NotifyMessage('Thanh cong')
                 if (isChecked === true) {
                     const data = {
                         email: email,
-                        password: password
-                    };
-                    const jsonData = JSON.stringify(data);
-                    await AsyncStorage.setItem(key, jsonData);
-                    console.log('Lưu dữ liệu thành công!');
+                        password: password,
+                    }
+                    const jsonData = JSON.stringify(data)
+                    await AsyncStorage.setItem(key, jsonData)
+                    console.log('Lưu dữ liệu thành công!')
                 } else {
-                    console.log('Lưu dữ liệu thất bại!');
+                    console.log('Lưu dữ liệu thất bại!')
                 }
             } else {
-                console.log('that bai')
                 NotifyMessage(
                     'Đăng nhập thất bại',
                     'Tài khoản hoặc mật khẩu không đúng'
@@ -99,9 +103,9 @@ const LoginScreen = (props) => {
         setPassword('')
     }
     const checkUserLoggedIn = async () => {
-        const jsonData = await AsyncStorage.getItem(key);
+        const jsonData = await AsyncStorage.getItem(key)
         if (jsonData !== null) {
-            const userData = JSON.parse(jsonData);
+            const userData = JSON.parse(jsonData)
             console.log(userData)
             try {
                 const response = await fetch(
@@ -114,21 +118,41 @@ const LoginScreen = (props) => {
                         body: JSON.stringify(userData),
                     }
                 )
-                const data = await response.json()
+                // const { data } = await response.json()
+                // console.log(data)
+                // const { token } = data
+                // console.log(token)
                 if (response.status === 200) {
                     console.log('thanh cong')
+                    // const { data } = await response.json()
+                    // console.log(data)
+                    // // setUserInfo(data)
+                    // await AsyncStorage.setItem(
+                    //     '@user_info',
+                    //     JSON.stringify(data)
+                    // )
+                    const { data } = await response.json()
+                    console.log(data)
+                    const { token } = data
+                    console.log(token)
+                    // setUserInfo(token)
+                    await AsyncStorage.setItem('@user_info', token)
+
                     props.navigation.navigate('Drawer')
-                    NotifyMessage("Thanh cong")
+                    NotifyMessage('Thanh cong')
                 } else {
                     console.log('that bai')
-                    NotifyMessage("Đăng nhập thất bại", "Tài khoản hoặc mật khẩu không đúng")
+                    NotifyMessage(
+                        'Đăng nhập thất bại',
+                        'Tài khoản hoặc mật khẩu không đúng'
+                    )
                 }
             } catch (error) {
                 console.error(error)
             }
         }
     }
-    checkUserLoggedIn();
+    checkUserLoggedIn()
     return (
         <View style={styles.registerViewAll}>
             <View style={styles.registerView}>
