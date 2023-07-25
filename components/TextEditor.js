@@ -1,193 +1,82 @@
-import React, { useState } from "react";
-import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { MaterialIcons } from "@expo/vector-icons";
+import React, { useRef } from "react";
+import {
+  Text,
+  Platform,
+  KeyboardAvoidingView,
+  SafeAreaView,
+  ScrollView,
+  View,
+} from "react-native";
+import {
+  actions,
+  RichEditor,
+  RichToolbar,
+} from "react-native-pell-rich-editor";
 
-const TextEditor = () => {
-  const [text, setText] = useState("");
-  const [fontSize, setFontSize] = useState(16);
-  const [fontWeight, setFontWeight] = useState("normal");
-  const [textAlign, setTextAlign] = useState("left");
-  const [underline, setUnderline] = useState(false);
-  const [italic, setItalic] = useState(false);
+const handleHead = ({ tintColor }) => (
+  <Text style={{ color: tintColor }}>H1</Text>
+);
 
-  const onChangeText = (newText) => {
-    setText(newText);
-    saveText(newText);
-    console.log("New text:", newText);
+const MyEditor = () => {
+  const richText = useRef(); // Ref để tham chiếu đến RichEditor
+
+  const initialContentHTML = "<p>Initial Content</p>"; // Nội dung HTML ban đầu của trình soạn thảo
+
+  const filterHtmlTags = (html) => { // Hàm lọc thẻ HTML ra khỏi nội dung văn bản
+    const regex = /(<([^>]+)>)/gi;
+    return html.replace(regex, "");
   };
 
-  const saveText = async (newText) => {
-    try {
-      await AsyncStorage.setItem("@text_editor_content", newText);
-      console.log("Text saved successfully:", newText);
-    } catch (e) {
-      console.error("Error saving text:", e);
-    }
+  const handleChangeText = (descriptionText) => { // Hàm xử lý khi nội dung trình soạn thảo thay đổi
+    console.log("Text:", filterHtmlTags(descriptionText)); // In nội dung đã lọc (không có thẻ HTML) ra console
   };
-
-  const loadText = async () => {
-    try {
-      const savedText = await AsyncStorage.getItem("@text_editor_content");
-      if (savedText !== null) {
-        setText(savedText);
-        console.log("Text loaded successfully:", savedText);
-      }
-    } catch (e) {
-      console.error("Error loading text:", e);
-    }
-  };
-
-  // Load the saved text on component mount
-  React.useEffect(() => {
-    loadText();
-  }, []);
 
   return (
-    <View style={styles.container}>
-      {/* Toolbar */}
-      <View style={styles.toolbar}>
-        {/* Font Size Buttons */}
-        <TouchableOpacity onPress={() => {
-          setFontSize(16);
-          console.log("Font size selected:", 16);
-        }}>
-          <MaterialIcons
-            name="text-format"
-            size={24}
-            color={fontSize === 16 ? "black" : "grey"}
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1 }}
+        >
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: "bold",
+              paddingTop: 30,
+              textAlign: "center",
+            }}
+          >
+            TextEditor:
+          </Text>
+          <RichEditor
+            ref={richText} // Sử dụng ref để tham chiếu đến RichEditor
+            initialContentHTML={initialContentHTML} // Nội dung HTML ban đầu của trình soạn thảo
+            onChange={handleChangeText} // Gọi hàm handleChangeText khi nội dung trình soạn thảo thay đổi
           />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {
-          setFontSize(20);
-          console.log("Font size selected:", 20);
-        }}>
-          <MaterialIcons
-            name="text-format"
-            size={28}
-            color={fontSize === 20 ? "black" : "grey"}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {
-          setFontSize(24);
-          console.log("Font size selected:", 24);
-        }}>
-          <MaterialIcons
-            name="text-format"
-            size={32}
-            color={fontSize === 24 ? "black" : "grey"}
-          />
-        </TouchableOpacity>
-
-        {/* Font Weight (Bold) Button */}
-        <TouchableOpacity onPress={() => {
-          setFontWeight(fontWeight === "bold" ? "normal" : "bold");
-          console.log("Font weight selected:", fontWeight === "bold" ? "normal" : "bold");
-        }}>
-          <MaterialIcons
-            name="format-bold"
-            size={24}
-            color={fontWeight === "bold" ? "black" : "grey"}
-          />
-        </TouchableOpacity>
-
-        {/* Underline Button */}
-        <TouchableOpacity onPress={() => {
-          setUnderline(!underline);
-          console.log("Underline selected:", !underline);
-        }}>
-          <MaterialIcons
-            name="format-underlined"
-            size={24}
-            color={underline ? "black" : "grey"}
-          />
-        </TouchableOpacity>
-
-        {/* Italic Button */}
-        <TouchableOpacity onPress={() => {
-          setItalic(!italic);
-          console.log("Italic selected:", !italic);
-        }}>
-          <MaterialIcons
-            name="format-italic"
-            size={24}
-            color={italic ? "black" : "grey"}
-          />
-        </TouchableOpacity>
-
-        {/* Alignment Buttons */}
-        <TouchableOpacity onPress={() => {
-          setTextAlign("left");
-          console.log("Text align selected:", "left");
-        }}>
-          <MaterialIcons
-            name="format-align-left"
-            size={24}
-            color={textAlign === "left" ? "black" : "grey"}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {
-          setTextAlign("center");
-          console.log("Text align selected:", "center");
-        }}>
-          <MaterialIcons
-            name="format-align-center"
-            size={24}
-            color={textAlign === "center" ? "black" : "grey"}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => {
-          setTextAlign("right");
-          console.log("Text align selected:", "right");
-        }}>
-          <MaterialIcons
-            name="format-align-right"
-            size={24}
-            color={textAlign === "right" ? "black" : "grey"}
-          />
-        </TouchableOpacity>
+        </KeyboardAvoidingView>
+      </ScrollView>
+      <View style={{ position: "absolute", bottom: 0 }}>
+        <RichToolbar
+          editor={richText} // Truyền ref của RichEditor vào RichToolbar để liên kết chức năng
+          actions={[
+            actions.setBold,
+            actions.setItalic,
+            actions.setUnderline,
+            actions.insertBulletsList,
+            actions.insertOrderedList,
+            actions.insertLink,
+            actions.keyboard,
+            actions.setStrikethrough,
+            actions.removeFormat,
+            actions.checkboxList,
+            actions.undo,
+            actions.redo,
+          ]} // Các chức năng của RichToolbar
+          iconMap={{ [actions.heading1]: handleHead }} // Định nghĩa biểu tượng tùy chỉnh cho chức năng "heading1" 
+        />
       </View>
-
-      {/* Text Input */}
-      <TextInput
-        style={[
-          styles.textInput,
-          {
-            fontSize,
-            fontWeight,
-            textAlign,
-            textDecorationLine: underline ? "underline" : "none",
-            fontStyle: italic ? "italic" : "normal",
-          },
-        ]}
-        multiline={true}
-        value={text}
-        onChangeText={onChangeText}
-        placeholder="Start typing..."
-        placeholderTextColor="#999"
-      />
-    </View>
-    
+    </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "#fff",
-  },
-  toolbar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 10,
-  },
-  textInput: {
-    flex: 1,
-    fontSize: 16,
-    lineHeight: 24,
-    color: "#000",
-  },
-});
-
-export default TextEditor;
+export default MyEditor;
