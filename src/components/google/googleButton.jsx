@@ -49,7 +49,6 @@ export default function googleButton() {
       console.log(error);
     }
   };
-
   return (
     <View style={styles.container}>
       <Text style={styles.textjson}>{JSON.stringify(userInfo)}</Text>
@@ -64,6 +63,7 @@ export default function googleButton() {
       </TouchableOpacity>
     </View>
   );
+
 }
 const styles = StyleSheet.create({
   container: {
