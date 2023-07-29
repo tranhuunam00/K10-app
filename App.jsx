@@ -10,6 +10,8 @@ import 'react-native-gesture-handler'
 import SignUpScreen from './src/modules/auth/signup'
 import Profile from './src/modules/profile/profile'
 import LoginScreen from './src/modules/auth/login'
+import googleButton from './src/components/google/googleButton'
+import fbButton from './src/components/facebook/fbButton'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Stack = createNativeStackNavigator()
@@ -96,7 +98,7 @@ export default function App() {
                         contentStyle: { backgroundColor: '#3f2f25' },
                     }}
                 >
-                    <Stack.Screen
+                    {/* <Stack.Screen
                         name="Login"
                         component={LoginScreen}
                         style={{
@@ -117,10 +119,10 @@ export default function App() {
                             justifyContent: 'center',
                         }}
                         options={{ headerShown: false }}
-                    />
+                    /> */}
                     <Stack.Screen
-                        name="Drawer"
-                        component={DrawerNavigator}
+                        name="loingg"
+                        component={googleButton}
                         options={{
                             headerShown: false,
                         }}
