@@ -26,6 +26,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+
     "scheme": ["k10-app", "fb6320674227969437", "k10-app"]
   }
 }
