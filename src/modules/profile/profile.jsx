@@ -51,106 +51,124 @@ const Profile = () => {
     }, [])
 
     return (
-        <SafeAreaView style={tw`bg-white flex-1 `}>
-            <View style={tw`mx-[24px]`}>
-                <View
-                    style={tw`flex-row items-center justify-between  mt-[20px]`}
-                >
+        <SafeAreaView style={tw`bg-white flex-1`}>
+            <ScrollView>
+                <View style={tw`mx-[24px]`}>
                     <View
-
+                        style={tw`flex-row items-center justify-between  mt-[20px]`}
                     >
-                        {/* <Image
+                        <View>
+                            {/* <Image
                             source={IMAGE_APP.avatar}
                             style={tw`w-[100px] h-[100px] border rounded-[50px] `}
                         /> */}
-                        <AvatarUser />
+                            <AvatarUser />
+                        </View>
+                        <View>
+                            <Text style={tw`font-bold text-[24px]`}>
+                                Edward Larry
+                            </Text>
+                            <Text style={tw`text-[#777] text-[16px] mt-2`}>
+                                Senior Designer
+                            </Text>
+                        </View>
+                        <TouchableOpacity>
+                            <Image source={IMAGE_APP.edit} />
+                        </TouchableOpacity>
                     </View>
-                    <View>
-                        <Text style={tw`font-bold text-[24px]`}>
-                            Edward Larry
+                    {/* Thông tin cá nhân */}
+                    <View style={tw`mt-[40px]`}>
+                        <Text style={tw` text-[16px] text-[#777]`}>
+                            Thông tin cá nhân
                         </Text>
-                        <Text style={tw`text-[#777] text-[16px] mt-2`}>
-                            Senior Designer
+                        <View style={tw`flex-column mt-2`}>
+                            <View
+                                style={tw`flex-row my-1  py-3 border-b border-slate-300 bg-slate-100 shadow-lg`}
+                            >
+                                <Text
+                                    style={tw`font-bold text-[16px] text-[#888] w-100px ml-2`}
+                                >
+                                    Email
+                                </Text>
+                                <Text style={tw`text-[16px] font-bold`}>
+                                    {userInfo ? userInfo.data.email : null}
+                                </Text>
+                            </View>
+                            <View
+                                style={tw`flex-row my-1  py-3 border-b border-slate-300 bg-slate-100 shadow-lg`}
+                            >
+                                <Text
+                                    style={tw`font-bold text-[16px] text-[#888] w-100px ml-2`}
+                                >
+                                    Gender
+                                </Text>
+                                <Text style={tw`text-[16px] font-bold`}>
+                                    {userInfo ? userInfo.data.sex : null}
+                                </Text>
+                            </View>
+                            <View
+                                style={tw`flex-row my-1 py-3 border-b border-slate-300 bg-slate-100 shadow-lg`}
+                            >
+                                <Text
+                                    style={tw`font-bold text-[16px] text-[#888] w-100px ml-2`}
+                                >
+                                    Role
+                                </Text>
+                                <Text style={tw`text-[16px] font-bold`}>
+                                    {userInfo ? userInfo.data.role : null}
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
+                    {/* status */}
+                    <View style={tw`mt-[40px]`}>
+                        <Text style={tw` text-[16px] text-[#777]`}>
+                            My Status
                         </Text>
-                    </View>
-                    <TouchableOpacity>
-                        <Image source={IMAGE_APP.edit} />
-                    </TouchableOpacity>
-                </View>
-                {/* Thông tin cá nhân */}
-                <View style={tw`mt-[40px]`}>
-                    <Text style={tw` text-[16px] text-[#777]`}>
-                        Thông tin cá nhân
-                    </Text>
-                    <View style={tw`flex-column mt-2`}>
-                        <View style={tw`flex-row`}>
-                            <Text style={tw`font-bold text-[18px]`}>
-                                Email:
-                            </Text>
-                            <Text style={tw`ml-3 text-[16px]`}>
-                                {userInfo ? userInfo.data.email : null}
-                            </Text>
-                        </View>
-                        <View style={tw`flex-row`}>
-                            <Text style={tw`font-bold text-[18px]`}>
-                                Gender:
-                            </Text>
-                            <Text style={tw`ml-3 text-[16px]`}>
-                                {userInfo ? userInfo.data.sex : null}
-                            </Text>
-                        </View>
-                        <View style={tw`flex-row`}>
-                            <Text style={tw`font-bold text-[18px]`}>Role:</Text>
-                            <Text style={tw`ml-3 text-[16px]`}>
-                                {userInfo ? userInfo.data.role : null}
-                            </Text>
+                        <View style={tw`flex-row mt-3`}>
+                            <ScrollView horizontal style={tw`z-0`}>
+                                <StatusCustom
+                                    name={'Away'}
+                                    icon={IMAGE_APP.email}
+                                    color={'bg-cyan-400'}
+                                />
+                                <StatusCustom
+                                    name={'At work'}
+                                    icon={IMAGE_APP.google_ic}
+                                    color={'bg-gray-400'}
+                                />
+                                <StatusCustom
+                                    name={'Hello my friend my name is Hau'}
+                                    icon={IMAGE_APP.facebook_ic}
+                                    color={'bg-black'}
+                                />
+                            </ScrollView>
                         </View>
                     </View>
-                </View>
-                {/* status */}
-                <View style={tw`mt-[40px]`}>
-                    <Text style={tw` text-[16px] text-[#777]`}>My Status</Text>
-                    <View style={tw`flex-row mt-3`}>
-                        <ScrollView horizontal style={tw`z-0`}>
-                            <StatusCustom
-                                name={'Away'}
-                                icon={IMAGE_APP.email}
-                                color={'bg-cyan-400'}
-                            />
-                            <StatusCustom
-                                name={'At work'}
-                                icon={IMAGE_APP.google_ic}
-                                color={'bg-gray-400'}
-                            />
-                            <StatusCustom
-                                name={'Hello my friend my name is Hau'}
-                                icon={IMAGE_APP.facebook_ic}
-                                color={'bg-black'}
-                            />
-                        </ScrollView>
-                    </View>
-                </View>
-                <View style={tw`mt-[20px]`}>
-                    <Text style={tw` text-[16px] text-[#777]`}>Dashboard</Text>
                     <View style={tw`mt-[20px]`}>
-                        <DashboardCustom
-                            name={'Payments'}
-                            color={'bg-green-600'}
-                            icon={IMAGE_APP.email}
-                        />
-                        <DashboardCustom
-                            name={'Payments'}
-                            color={'bg-green-600'}
-                            icon={IMAGE_APP.email}
-                        />
-                        <DashboardCustom
-                            name={'Payments'}
-                            color={'bg-green-600'}
-                            icon={IMAGE_APP.email}
-                        />
+                        <Text style={tw` text-[16px] text-[#777]`}>
+                            Dashboard
+                        </Text>
+                        <View style={tw`mt-[20px]`}>
+                            <DashboardCustom
+                                name={'Payments'}
+                                color={'bg-green-600'}
+                                icon={IMAGE_APP.email}
+                            />
+                            <DashboardCustom
+                                name={'Payments'}
+                                color={'bg-green-600'}
+                                icon={IMAGE_APP.email}
+                            />
+                            <DashboardCustom
+                                name={'Payments'}
+                                color={'bg-green-600'}
+                                icon={IMAGE_APP.email}
+                            />
+                        </View>
                     </View>
                 </View>
-            </View>
+            </ScrollView>
         </SafeAreaView>
     )
 }
