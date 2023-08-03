@@ -18,7 +18,7 @@ const InputCustom = ({
     validate,
     name,
     placeholder,
-    onChange = () => {},
+    onChange = () => { },
     styleErr,
     value,
     iconUnhidePass,
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-end',
         position: 'relative',
+
     },
     TextInput: {
         width: 331,
@@ -105,9 +106,7 @@ const styles = StyleSheet.create({
         paddingRight: 40,
         borderRadius: 10,
     },
-    inputWithValue: {
-        // paddingTop: 10,
-    },
+
     error: {
         color: '#FF0000',
         marginLeft: 10,

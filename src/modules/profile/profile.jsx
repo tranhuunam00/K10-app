@@ -9,7 +9,7 @@ import AvatarUser from '../../components/avatar/AvatarUser'
 import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const Profile = () => {
+const Profile = ({ navigation }) => {
     const [userInfo, setUserInfo] = useState(null)
 
     useEffect(() => {
@@ -33,9 +33,8 @@ const Profile = () => {
                     console.log(`Bearer ${token}`)
                     if (response.ok == true) {
                         const userInfoData = await response.json()
-                        console.log(userInfoData)
                         setUserInfo(userInfoData)
-                        return userInfoData // Lưu thông tin người dùng vào state
+                        return userInfoData
                     } else {
                         console.error('Error fetching user info')
                     }
@@ -49,6 +48,9 @@ const Profile = () => {
 
         getUserInfo()
     }, [])
+    const handlerOnPressProfileEdit = () => {
+        navigation.navigate("ProfileEdit", { userInfo })
+    }
 
     return (
         <SafeAreaView style={tw`bg-white flex-1`}>
@@ -72,7 +74,7 @@ const Profile = () => {
                                 Senior Designer
                             </Text>
                         </View>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={handlerOnPressProfileEdit}>
                             <Image source={IMAGE_APP.edit} />
                         </TouchableOpacity>
                     </View>

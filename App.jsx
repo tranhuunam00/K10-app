@@ -11,6 +11,7 @@ import SignUpScreen from './src/modules/auth/signup'
 import Profile from './src/modules/profile/profile'
 import LoginScreen from './src/modules/auth/login'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import ProfileEdit from './src/modules/profile/profileEdit/ProfileEdit'
 
 const Stack = createNativeStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -52,6 +53,10 @@ function DrawerNavigator(props) {
                         <Ionicons name="star" color={color} size={size} />
                     ),
                 }}
+            />
+            <Drawer.Screen
+                name="ProfileEdit"
+                component={ProfileEdit}
             />
             <Drawer.Screen
                 name="Logout"
