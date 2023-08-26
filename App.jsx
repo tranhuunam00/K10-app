@@ -11,6 +11,7 @@ import SignUpScreen from './src/modules/auth/signup'
 import Profile from './src/modules/profile/profile'
 import LoginScreen from './src/modules/auth/login'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import VoiceCustom from './src/components/voice/voice'
 
 const Stack = createNativeStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -78,9 +79,10 @@ function DrawerNavigator(props) {
 export default function App() {
     return (
         <>
-            <StatusBar style="light" />
+            <VoiceCustom />
+            {/* <StatusBar style="light" /> */}
             {/* <FavoritesContextProvider> */}
-            <NavigationContainer
+            {/* <NavigationContainer
                 style={{
                     display: 'flex',
                     flex: 1,
@@ -126,7 +128,7 @@ export default function App() {
                         }}
                     />
                 </Stack.Navigator>
-            </NavigationContainer>
+            </NavigationContainer> */}
 
             {/* </FavoritesContextProvider> */}
         </>
